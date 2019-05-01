@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479f74dd4bab3fe4fb94d4b088fe4848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeed: 15
+  screenPadding: 0.2
 --- !u!212 &461622522
 SpriteRenderer:
   m_ObjectHideFlags: 0
