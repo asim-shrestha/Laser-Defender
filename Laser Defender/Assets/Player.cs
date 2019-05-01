@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
     }
 
     private void move() {
-        var deltaX = Input.GetKeyDown
+        var deltaX = Input.GetKeyDown;
         var newXPos = transform.position.x + deltaX;
     }
 }
