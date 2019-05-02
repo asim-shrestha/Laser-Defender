@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] int playerHealth = 3;
 	[SerializeField] float playerSpeed = 10f;
 	[SerializeField] float screenPadding = 1f;
+	[SerializeField] GameObject explosionParticles;
 
 	[Header("Projectile")]
 	[SerializeField] GameObject laserPrefab;
@@ -121,7 +122,16 @@ public class Player : MonoBehaviour {
 		playerHealth -= damage;
 
 		if (playerHealth <= 0) {
+			CreateExplosion();
 			Destroy(this.gameObject);
 		}
+	}
+
+	private void CreateExplosion() {
+		GameObject explosion = Instantiate(
+			explosionParticles,
+			transform.position,
+			Quaternion.identity);
+		Destroy(explosion, 1f);
 	}
 }

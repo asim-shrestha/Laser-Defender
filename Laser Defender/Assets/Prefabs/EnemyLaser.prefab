@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  hitParticles: {fileID: 3534541027507789583, guid: 91179639efbea8043aae9b95dd014510,
+    type: 3}
 --- !u!50 &3351253602675212819
 Rigidbody2D:
   serializedVersion: 4

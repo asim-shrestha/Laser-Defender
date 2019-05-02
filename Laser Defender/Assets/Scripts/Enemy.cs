@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 	[SerializeField] float mintimeBetweenShots = 0.2f;
 	[SerializeField] float maxtimeBetweenShots = 3f;
 	[SerializeField] GameObject laser;
+
+	[SerializeField] GameObject explosionParticles;
 	float laserSpeed = 5f;
 
 	List<Transform> wayPoints = new List<Transform>();
@@ -104,7 +106,16 @@ public class Enemy : MonoBehaviour
 		health-= damage;
 
 		if (health <= 0) {
+			CreateExplosion();
 			Destroy(this.gameObject);
 		}
+	}
+
+	private void CreateExplosion() {
+		GameObject explosion = Instantiate(
+			explosionParticles,
+			transform.position,
+			Quaternion.identity);
+		Destroy(explosion, 1f);
 	}
 }

@@ -94,12 +94,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4fb2104c472fd4bb960fdf35faac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   speed: 3
   shotcounter: 0
   mintimeBetweenShots: 0.2
   maxtimeBetweenShots: 3
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
+  explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
+    type: 3}
 --- !u!61 &2128642751
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -138,9 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4fb2104c472fd4bb960fdf35faac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   speed: 3
   shotcounter: 0
   mintimeBetweenShots: 4
   maxtimeBetweenShots: 10
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
+  explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
+    type: 3}
