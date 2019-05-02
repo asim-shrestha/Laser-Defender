@@ -86,9 +86,19 @@ public class Player : MonoBehaviour {
 			laserPrefab,
 			transform.position,
 			Quaternion.identity);
-
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Math.Max(playerSpeed, laserSpeed));
-		yield return new WaitForSeconds(fireDelay);
+
+		//Ship recoil
+		float recoilOffset = 0.08f;
+		float newYPos = transform.position.y - recoilOffset;	//Recoil position
+		transform.position = new Vector2(transform.position.x, newYPos);
+		float recoilDelay = 0.05f;								
+		yield return new WaitForSeconds(recoilDelay);
+		newYPos = transform.position.y + recoilOffset;			//Reset position
+		transform.position = new Vector2(transform.position.x, transform.position.y + recoilOffset);
+
+		//Wait between successive shots
+		yield return new WaitForSeconds(fireDelay - recoilDelay);
 		isFiring = false;
 	}
 }
