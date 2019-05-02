@@ -14,12 +14,12 @@ public class Laser : MonoBehaviour {
 
 	private void CheckBounds() {
 		//Figure out the max Y position
-		float offset = 1f;
+		float offset = 0f;
 		float maxYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y + offset;
 
 		//Destroy if offscreen
-		if (this.transform.position.y >= maxYPos) {
-			Object.Destroy(this);
+		if (transform.position.y > maxYPos) {
+			Destroy(this.gameObject);
 		}
 	}
 }
