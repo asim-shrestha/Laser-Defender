@@ -133,4 +133,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  wayPoints: []
+  enemySpeed: 5
+  waveConfig: {fileID: 11400000, guid: 7f944345fb38acb449387bfc11b37ec0, type: 2}

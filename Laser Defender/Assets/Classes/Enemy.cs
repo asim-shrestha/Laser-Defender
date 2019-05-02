@@ -6,12 +6,14 @@ public class Enemy : MonoBehaviour
 {
 	[SerializeField] int health = 3;
 	[SerializeField] float enemySpeed = 5f;
-	[SerializeField] List<Transform> wayPoints;
+	[SerializeField] WaveConfig waveConfig;
+	List<Transform> wayPoints;
 	private int wayPointIndex = 0;
 
 	// Start is called before the first frame update
 	void Start()
     {
+		wayPoints = waveConfig.GetWaypoints();
 		//Start at the first waypoint
 		transform.position = wayPoints[wayPointIndex].position;
 		wayPointIndex++;
