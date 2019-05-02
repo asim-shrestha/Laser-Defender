@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 	//Configuration
+	[Header("Player Configuration")]
+	[SerializeField] int playerHealth = 3;
 	[SerializeField] float playerSpeed = 10f;
 	[SerializeField] float screenPadding = 1f;
+
+	[Header("Projectile")]
 	[SerializeField] GameObject laserPrefab;
 	[SerializeField] float laserSpeed = 10f;
 	[SerializeField] float fireDelay = 0.2f;
 
 	//Sprites
+	[Header("Sprites")]
 	[SerializeField] Sprite leftSprite;
 	[SerializeField] Sprite middleSprite;
 	[SerializeField] Sprite rightSprite;
@@ -100,5 +105,23 @@ public class Player : MonoBehaviour {
 		//Wait between successive shots
 		yield return new WaitForSeconds(fireDelay - recoilDelay);
 		isFiring = false;
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision) {
+		DamageDealer damageDealer = collision.gameObject.GetComponent<DamageDealer>();
+
+		//If damageDealer is null, return
+		if (!damageDealer) { return; }
+
+		this.HandleDamage(damageDealer.GetDamage());
+		damageDealer.HandleHit();
+	}
+
+	private void HandleDamage(int damage) {
+		playerHealth -= damage;
+
+		if (playerHealth <= 0) {
+			Destroy(this.gameObject);
+		}
 	}
 }

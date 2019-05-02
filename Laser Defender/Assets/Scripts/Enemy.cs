@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	private int health = 3;
-	private float speed = 3f;
+	[SerializeField] private int health = 3;
+	[SerializeField] private float speed = 3f;
+
+	[SerializeField] float shotcounter;
+	[SerializeField] float mintimeBetweenShots = 0.2f;
+	[SerializeField] float maxtimeBetweenShots = 3f;
+	[SerializeField] GameObject laser;
+	float laserSpeed = 5f;
+
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
 
@@ -23,12 +30,16 @@ public class Enemy : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		
+		shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+		Move();
+		CountdownShotCounter();
+	}
+
+	private void Move() {
 		//Check if we have reached the end of the path
 		if (waypointIndex <= wayPoints.Count - 1) {
 			//Move towards next waypoint
@@ -51,10 +62,40 @@ public class Enemy : MonoBehaviour
 		else {
 			Destroy(this.gameObject);
 		}
-    }
+	}
+
+	private void CountdownShotCounter() {
+		shotcounter -= Time.deltaTime;
+		if (shotcounter <= 0f) {
+			StartCoroutine(Fire());
+			shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
+		}
+	}
+
+	private IEnumerator Fire() {
+		GameObject newLaser = Instantiate(
+			laser,
+			transform.position,
+			Quaternion.identity
+			);
+		newLaser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -laserSpeed);
+
+		//Ship recoil
+		float recoilOffset = 0.08f;
+		float newYPos = transform.position.y + recoilOffset;    //Recoil position
+		transform.position = new Vector2(transform.position.x, newYPos);
+		float recoilDelay = 0.05f;
+		yield return new WaitForSeconds(recoilDelay);
+		newYPos = transform.position.y - recoilOffset;          //Reset position
+		transform.position = new Vector2(transform.position.x, transform.position.y + recoilOffset);
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		DamageDealer damageDealer = collision.gameObject.GetComponent<DamageDealer>();
+
+		//If damageDealer is null, return
+		if (!damageDealer) { return; }
+
 		this.HandleDamage(damageDealer.GetDamage());
 		damageDealer.HandleHit();
 	}
@@ -62,7 +103,6 @@ public class Enemy : MonoBehaviour
 	private void HandleDamage(int damage) {
 		health-= damage;
 
-		Debug.Log(health);
 		if (health <= 0) {
 			Destroy(this.gameObject);
 		}
