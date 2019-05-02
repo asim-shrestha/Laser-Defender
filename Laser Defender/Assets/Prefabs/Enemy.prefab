@@ -134,4 +134,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   enemySpeed: 5
-  waveConfig: {fileID: 11400000, guid: 7f944345fb38acb449387bfc11b37ec0, type: 2}
+  waveConfig: {fileID: 11400000, guid: e52b48fce382fae4e8fefa7d13bf3c95, type: 2}
