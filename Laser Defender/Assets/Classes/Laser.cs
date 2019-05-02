@@ -14,7 +14,7 @@ public class Laser : MonoBehaviour {
 
 	private void CheckBounds() {
 		//Figure out the max Y position
-		float offset = 0f;
+		float offset = 1f;
 		float maxYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y + offset;
 
 		//Destroy if offscreen
@@ -22,4 +22,6 @@ public class Laser : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 	}
+
+	//Is also destroyed when it touches an enemy
 }

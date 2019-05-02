@@ -78,7 +78,6 @@ public class Player : MonoBehaviour {
 				StartCoroutine(FireContinuously());
 			}
 		}
-
 	}
 
 	IEnumerator FireContinuously() {
@@ -91,6 +90,5 @@ public class Player : MonoBehaviour {
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Math.Max(playerSpeed, laserSpeed));
 		yield return new WaitForSeconds(fireDelay);
 		isFiring = false;
-
 	}
 }
