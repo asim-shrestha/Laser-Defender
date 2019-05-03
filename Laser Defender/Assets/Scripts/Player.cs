@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		SetUpBoundaries();
+		FindObjectOfType<GameSession>().StartGame();
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 	}
 
@@ -133,7 +134,7 @@ public class Player : MonoBehaviour {
 		if (playerHealth <= 0) {
 			HandleDeath();
 			Destroy(this.gameObject);
-			FindObjectOfType<Level>().LoadGameOver();
+			FindObjectOfType<GameSession>().StopGame();
 		}
 	}
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	[SerializeField] int health;
-	[SerializeField] float speed = 2f;
+	[SerializeField] float speed = 5f;
 	[SerializeField] int scoreValue = 100;
 
 	[SerializeField] float shotcounter;
@@ -18,6 +18,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] GameObject explosionParticles;
 	[SerializeField] AudioClip deathSound;
 	[SerializeField] AudioClip hitSound;
+	[SerializeField] bool isGameOver = false;
+	[SerializeField] float outofBoundsLeft = -5f;
+	[SerializeField] float outofBoundsRight = 5f;
 
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
@@ -40,6 +43,12 @@ public class Enemy : MonoBehaviour
     void Update() {
 		Move();
 		CountdownShotCounter();
+		
+	}
+	
+	public void GameOver() {
+		wayPoints.Add(this.transform);
+		isGameOver = true;
 	}
 
 	private void Move() {
@@ -47,6 +56,16 @@ public class Enemy : MonoBehaviour
 		if (waypointIndex <= wayPoints.Count - 1) {
 			//Move towards next waypoint
 			var targetPosition = wayPoints[waypointIndex].position;
+
+			//If the game is over, move towards left of screen
+			if (isGameOver) {
+				float outOfBounds = outofBoundsLeft;
+
+				if(transform.position.x > 0) { outOfBounds = outofBoundsRight; }
+
+				targetPosition = new Vector2(outOfBounds, transform.position.y);
+			}
+
 			var movementhThisFrame = speed * Time.deltaTime;
 			transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementhThisFrame);
 
@@ -69,7 +88,9 @@ public class Enemy : MonoBehaviour
 
 	private void CountdownShotCounter() {
 		shotcounter -= Time.deltaTime;
-		if (shotcounter <= 0f) {
+
+		//If the shot counter is expired and the game hasn't ended
+		if (shotcounter <= 0f && !isGameOver) {
 			StartCoroutine(Fire());
 			shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
 		}

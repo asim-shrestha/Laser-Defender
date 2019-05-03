@@ -7,7 +7,8 @@ public class EnemySpawner : MonoBehaviour
 {
 	[SerializeField] List<WaveConfig> waveConfigs;
 	[SerializeField] float timeBetweenWaves;
-	[SerializeField] bool isLooping = false;
+	[SerializeField] bool isLooping = true;
+	[SerializeField] bool isSpawning = true;
 
 	int waveIndex = 0;
     // Start is called before the first frame update
@@ -41,8 +42,20 @@ public class EnemySpawner : MonoBehaviour
 				Quaternion.identity);
 			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave);
 
+			if(isSpawning == false) {
+				Destroy(newEnemy.gameObject);
+			}
+
 			yield return new WaitForSeconds(currentWave.GetTimeBetweenSpaws());
 		}
+	}
+
+	public void StartWaves() {
+		isSpawning = true;
+	}
+
+	public void StopWaves() {
+		isSpawning = false;
 	}
 
 	// Update is called once per frame

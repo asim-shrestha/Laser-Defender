@@ -6,6 +6,9 @@ using TMPro;
 
 public class GameSession : MonoBehaviour
 {
+	[SerializeField] ParticleSystem closeStarfield;
+	[SerializeField] ParticleSystem farStarfield;
+	[SerializeField] BackgroundScroller backgroundScroller; 
 	private ScoreText scoreText;
 	private HealthText healthText;
 	private int score = 0;
@@ -24,6 +27,36 @@ public class GameSession : MonoBehaviour
 		else { DontDestroyOnLoad(this.gameObject); }
 	}
 
+	public void StartGame() {
+		backgroundScroller.StartScrolling();
+		closeStarfield.Play();
+		farStarfield.Play();
+
+		FindObjectOfType<EnemySpawner>().StartWaves();
+	}
+
+	public void StopGame() {
+		//Stop the background
+		backgroundScroller.StopScrolling();
+		closeStarfield.Stop();
+		closeStarfield.Clear();
+		farStarfield.Stop();
+		farStarfield.Clear();
+
+
+		//Move enemies off screen
+		MoveAllEnemies();
+
+		//Stop spawning enemies
+		FindObjectOfType<EnemySpawner>().StopWaves();
+	}
+
+	private void MoveAllEnemies() {
+		var enemies = FindObjectsOfType<Enemy>();
+		foreach(Enemy enemy in enemies) {
+			enemy.GameOver();
+		}
+	}
 	public void ChangeScore(int scoreValue) {
 		if (scoreText == null) { return; }
 		score += scoreValue;
@@ -49,6 +82,12 @@ public class GameSession : MonoBehaviour
 
 
 	public void ResetGame() {
+		//Destroy all enemies still on screen
+		var enemies = FindObjectsOfType<Enemy>();
+		foreach (Enemy enemy in enemies) {
+			Destroy(enemy.gameObject);
+		}
+
 		Destroy(this.gameObject);
 	}
 }
