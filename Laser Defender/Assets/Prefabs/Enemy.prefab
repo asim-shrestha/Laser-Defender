@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7973390421265352817}
   - component: {fileID: 6940041710485842366}
   - component: {fileID: 2128642751}
-  - component: {fileID: 2128642750}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
@@ -94,14 +93,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4fb2104c472fd4bb960fdf35faac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
   speed: 3
   shotcounter: 0
-  mintimeBetweenShots: 0.2
-  maxtimeBetweenShots: 3
+  mintimeBetweenShots: 0.5
+  maxtimeBetweenShots: 3.5
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
+  deathSound: {fileID: 8300000, guid: 3a4d25ae892be494c97704be592e8402, type: 3}
 --- !u!61 &2128642751
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -128,23 +128,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.97, y: 0.44}
   m_EdgeRadius: 0
---- !u!114 &2128642750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7973390421265352814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b4fb2104c472fd4bb960fdf35faac79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  speed: 3
-  shotcounter: 0
-  mintimeBetweenShots: 4
-  maxtimeBetweenShots: 10
-  laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
-  explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
-    type: 3}

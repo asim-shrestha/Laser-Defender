@@ -7,8 +7,6 @@ public class WaveConfig : ScriptableObject {
 
 	//Enemy settings
 	[SerializeField] GameObject enemyPrefab;
-	[SerializeField] float enemySpeed = 2f;
-	[SerializeField] int enemyHealth = 2; 
 	[SerializeField] int numberOfEnemies = 5;
 
 	//Path settings
@@ -19,10 +17,6 @@ public class WaveConfig : ScriptableObject {
 	public GameObject GetEnemyPrefab() { return enemyPrefab; }
 
 	public int GetNumberOfEnemies() { return numberOfEnemies; }
-
-	public float GetEnemySpeed() { return enemySpeed; }
-
-	public int GetEnemyHealth() { return enemyHealth; }
 
 	public List<Transform> GetWaypoints() {
 		List<Transform> waveWaypoints = new List<Transform>();

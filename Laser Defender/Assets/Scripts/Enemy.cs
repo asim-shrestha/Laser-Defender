@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	[SerializeField] private int health = 3;
-	[SerializeField] private float speed = 3f;
+	[SerializeField] private int health;
+	[SerializeField] private float speed = 2f;
 
 	[SerializeField] float shotcounter;
 	[SerializeField] float mintimeBetweenShots = 0.2f;
 	[SerializeField] float maxtimeBetweenShots = 3f;
 	[SerializeField] GameObject laser;
-
-	[SerializeField] GameObject explosionParticles;
 	float laserSpeed = 5f;
+
+	private WaveConfig waveConfig;
+	[SerializeField] GameObject explosionParticles;
+	[SerializeField] AudioClip deathSound;
 
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
 
 	public void SetWaveConfig(WaveConfig waveConfig) {
-		//Configure enemy
-		health = waveConfig.GetEnemyHealth();
-		speed = waveConfig.GetEnemySpeed();
 		wayPoints = waveConfig.GetWaypoints();
 
 		//Place enemy on the first waypoint
@@ -89,7 +88,7 @@ public class Enemy : MonoBehaviour
 		float recoilDelay = 0.05f;
 		yield return new WaitForSeconds(recoilDelay);
 		newYPos = transform.position.y - recoilOffset;          //Reset position
-		transform.position = new Vector2(transform.position.x, transform.position.y + recoilOffset);
+		transform.position = new Vector2(transform.position.x, newYPos);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
@@ -106,16 +105,19 @@ public class Enemy : MonoBehaviour
 		health-= damage;
 
 		if (health <= 0) {
-			CreateExplosion();
+			HandleDeath();
 			Destroy(this.gameObject);
 		}
 	}
 
-	private void CreateExplosion() {
+	private void HandleDeath() {
 		GameObject explosion = Instantiate(
 			explosionParticles,
 			transform.position,
 			Quaternion.identity);
 		Destroy(explosion, 1f);
+
+		float volume = 0.5f;
+		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
 	}
 }

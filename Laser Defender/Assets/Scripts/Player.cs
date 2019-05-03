@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] float playerSpeed = 10f;
 	[SerializeField] float screenPadding = 1f;
 	[SerializeField] GameObject explosionParticles;
+	[SerializeField] AudioClip deathSound;
 
 	[Header("Projectile")]
 	[SerializeField] GameObject laserPrefab;
@@ -133,5 +134,8 @@ public class Player : MonoBehaviour {
 			transform.position,
 			Quaternion.identity);
 		Destroy(explosion, 1f);
+
+		float volume = 0.5f;
+		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
 	}
 }

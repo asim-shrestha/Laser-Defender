@@ -5,13 +5,26 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
 	[SerializeField] int damage = 1;
+	[SerializeField] AudioClip laserSound;
 	[SerializeField] GameObject hitParticles;
+
+	private float minXPos;
+	private float maxXPos;
+	private float minYPos;
+	private float maxYPos;
 
 	// Start is called before the first frame update
 	void Start()
     {
-        
-    }
+		AudioSource.PlayClipAtPoint(laserSound, Camera.main.transform.position, 0.1f);
+
+		//Figure out the edges of the screen
+		float offset = 0.5f;
+		minXPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - offset;
+		maxXPos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + offset;
+		minYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y - offset;
+		maxYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y + offset;
+	}
 
 	// Update is called once per frame
 	void Update() {
@@ -19,13 +32,6 @@ public class DamageDealer : MonoBehaviour
 	}
 
 	private void CheckBounds() {
-		//Figure out the max Y position
-		float offset = 1f;
-		float minXPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - offset;
-		float maxXPos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + offset;
-		float minYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y - offset;
-		float maxYPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y + offset;
-
 		//Destroy if offcamera
 		if (transform.position.x < minXPos ||
 			transform.position.x > maxXPos ||
