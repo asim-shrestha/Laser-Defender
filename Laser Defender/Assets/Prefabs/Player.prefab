@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1688359879
-  m_SortingLayer: -1
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 88dfff302f832494b832a51c433a9505, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,7 +102,7 @@ MonoBehaviour:
   laserPrefab: {fileID: 1561963813005712889, guid: d0b67ef213d60ca45bfd196dd606c457,
     type: 3}
   laserSpeed: 5
-  fireDelay: 0.05
+  fireDelay: 0.3
   leftSprite: {fileID: 21300000, guid: ceba2a3fedb9edd48a3a506e858c28b8, type: 3}
   middleSprite: {fileID: 21300000, guid: 88dfff302f832494b832a51c433a9505, type: 3}
   rightSprite: {fileID: 21300000, guid: b511fc1732744e3428aacc06f2f79df7, type: 3}

@@ -123,12 +123,13 @@ public class Player : MonoBehaviour {
 		playerHealth -= damage;
 
 		if (playerHealth <= 0) {
-			CreateExplosion();
+			HandleDeath();
 			Destroy(this.gameObject);
+			FindObjectOfType<Level>().LoadGameOver();
 		}
 	}
 
-	private void CreateExplosion() {
+	private void HandleDeath() {
 		GameObject explosion = Instantiate(
 			explosionParticles,
 			transform.position,

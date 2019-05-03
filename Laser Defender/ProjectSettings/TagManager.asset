@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Foreground
+    uniqueID: 1688359879
+    locked: 0
+  - name: Lasers
+    uniqueID: 2436768377
+    locked: 0

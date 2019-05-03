@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundScroller : MonoBehaviour
-{
+public class BackgroundScroller : MonoBehaviour {
 	[SerializeField] float scrollSpeed = 0.05f;
 	[SerializeField] Material myMaterial;
+	[SerializeField] bool isScrolling = true;
 	private Vector2 offSet;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,6 @@ public class BackgroundScroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		myMaterial.mainTextureOffset += offSet * Time.deltaTime;
+		if (isScrolling) { myMaterial.mainTextureOffset += offSet * Time.deltaTime; }
     }
 }

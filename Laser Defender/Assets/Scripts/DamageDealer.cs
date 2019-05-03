@@ -16,7 +16,7 @@ public class DamageDealer : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		AudioSource.PlayClipAtPoint(laserSound, Camera.main.transform.position, 0.1f);
+		AudioSource.PlayClipAtPoint(laserSound, Camera.main.transform.position, 0.07f);
 
 		//Figure out the edges of the screen
 		float offset = 0.5f;
