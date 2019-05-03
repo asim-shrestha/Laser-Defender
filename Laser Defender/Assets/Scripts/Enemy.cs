@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	[SerializeField] private int health;
-	[SerializeField] private float speed = 2f;
+	[SerializeField] int health;
+	[SerializeField] float speed = 2f;
+	[SerializeField] int scoreValue = 100;
 
 	[SerializeField] float shotcounter;
 	[SerializeField] float mintimeBetweenShots = 0.2f;
@@ -111,13 +112,18 @@ public class Enemy : MonoBehaviour
 	}
 
 	private void HandleDeath() {
+		//Create explosion
 		GameObject explosion = Instantiate(
 			explosionParticles,
 			transform.position,
 			Quaternion.identity);
 		Destroy(explosion, 1f);
 
+		//Play sound
 		float volume = 0.5f;
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
+
+		//Update score
+		FindObjectOfType<GameSession>().AddScore(scoreValue);
 	}
 }
