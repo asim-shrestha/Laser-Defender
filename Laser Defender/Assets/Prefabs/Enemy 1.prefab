@@ -95,9 +95,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   speed: 4
+  scoreValue: 100
   shotcounter: 0
-  mintimeBetweenShots: 1
-  maxtimeBetweenShots: 2
+  mintimeBetweenShots: 1.5
+  maxtimeBetweenShots: 3
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}

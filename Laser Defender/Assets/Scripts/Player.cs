@@ -34,6 +34,7 @@ public class Player : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		SetUpBoundaries();
+		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 	}
 
 	// Update is called once per frame
@@ -69,11 +70,12 @@ public class Player : MonoBehaviour {
 
 	private void GetSprite() {
 		SpriteRenderer spriteRenderer = this.GetComponent<SpriteRenderer>();
+		float spriteThreshold = 0.3f;
 
 		//Get ship sprite
 		float inputAxis = Input.GetAxis("Horizontal");
-		if (inputAxis < -0.4) spriteRenderer.sprite = leftSprite;
-		else if (inputAxis > 0.4) spriteRenderer.sprite = rightSprite;
+		if (inputAxis < -spriteThreshold) spriteRenderer.sprite = leftSprite;
+		else if (inputAxis > spriteThreshold) spriteRenderer.sprite = rightSprite;
 		else spriteRenderer.sprite = middleSprite;
 	}
 
@@ -121,6 +123,7 @@ public class Player : MonoBehaviour {
 
 	private void HandleDamage(int damage) {
 		playerHealth -= damage;
+		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 
 		if (playerHealth <= 0) {
 			HandleDeath();
@@ -139,4 +142,5 @@ public class Player : MonoBehaviour {
 		float volume = 0.5f;
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
 	}
+
 }

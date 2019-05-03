@@ -124,6 +124,6 @@ public class Enemy : MonoBehaviour
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
 
 		//Update score
-		FindObjectOfType<GameSession>().AddScore(scoreValue);
+		FindObjectOfType<GameSession>().ChangeScore(scoreValue);
 	}
 }
