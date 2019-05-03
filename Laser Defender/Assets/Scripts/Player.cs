@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] float screenPadding = 1f;
 	[SerializeField] GameObject explosionParticles;
 	[SerializeField] AudioClip deathSound;
+	[SerializeField] AudioClip hitsounds;
 
 	[Header("Projectile")]
 	[SerializeField] GameObject laserPrefab;
@@ -124,6 +125,10 @@ public class Player : MonoBehaviour {
 	private void HandleDamage(int damage) {
 		playerHealth -= damage;
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
+
+		//Play sound
+		float volume = 0.3f;
+		AudioSource.PlayClipAtPoint(hitsounds, Camera.main.transform.position, volume);
 
 		if (playerHealth <= 0) {
 			HandleDeath();

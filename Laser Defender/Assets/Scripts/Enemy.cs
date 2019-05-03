@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 	private WaveConfig waveConfig;
 	[SerializeField] GameObject explosionParticles;
 	[SerializeField] AudioClip deathSound;
+	[SerializeField] AudioClip hitSound;
 
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
@@ -105,6 +106,10 @@ public class Enemy : MonoBehaviour
 	private void HandleDamage(int damage) {
 		health-= damage;
 
+		//Play sound
+		float volume = 0.3f;
+		AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position, volume);
+
 		if (health <= 0) {
 			HandleDeath();
 			Destroy(this.gameObject);
@@ -119,7 +124,7 @@ public class Enemy : MonoBehaviour
 			Quaternion.identity);
 		Destroy(explosion, 1f);
 
-		//Play sound
+		//Play death sound
 		float volume = 0.5f;
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
 

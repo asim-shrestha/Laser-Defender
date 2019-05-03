@@ -99,6 +99,7 @@ MonoBehaviour:
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
   deathSound: {fileID: 8300000, guid: 3a4d25ae892be494c97704be592e8402, type: 3}
+  hitsounds: {fileID: 8300000, guid: 0a8d64b396d1e6f4d9a67e5a791587d4, type: 3}
   laserPrefab: {fileID: 1561963813005712889, guid: d0b67ef213d60ca45bfd196dd606c457,
     type: 3}
   laserSpeed: 5
