@@ -6,6 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 	//Configuration
 	[Header("Player Configuration")]
+	[SerializeField] bool isStarted = false;
+	[SerializeField] bool isInvincible = false;
 	[SerializeField] int playerHealth = 3;
 	[SerializeField] float playerSpeed = 10f;
 	[SerializeField] float screenPadding = 1f;
@@ -30,17 +32,17 @@ public class Player : MonoBehaviour {
 	private float YMin;
 	private float YMax;
 
-	private Boolean isFiring = false;
+	private bool isFiring = false;
 
 	// Start is called before the first frame update
 	void Start() {
 		SetUpBoundaries();
-		FindObjectOfType<GameSession>().StartGame();
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 	}
 
 	// Update is called once per frame
 	void Update() {
+		if(!isStarted) { return; }
 		MovePlayer();
 		Fire();
 	}
@@ -124,7 +126,10 @@ public class Player : MonoBehaviour {
 	}
 
 	private void HandleDamage(int damage) {
+		if(isInvincible) { return; }
+
 		playerHealth -= damage;
+		StartCoroutine(InvincibilityAnimation());
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 
 		//Play sound
@@ -136,6 +141,23 @@ public class Player : MonoBehaviour {
 			Destroy(this.gameObject);
 			FindObjectOfType<GameSession>().StopGame();
 		}
+	}
+
+	private IEnumerator InvincibilityAnimation() {
+		isInvincible = true;
+
+		float flashDuration = 0.1f;
+		int flashCount = 7;
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+		for (int i = 0; i < flashCount; i++) {
+			spriteRenderer.color = Color.clear;
+			yield return new WaitForSeconds(flashDuration);
+			spriteRenderer.color = Color.white;
+			yield return new WaitForSeconds(flashDuration);
+		}
+
+		isInvincible = false;
 	}
 
 	private void HandleDeath() {

@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] List<WaveConfig> waveConfigs;
 	[SerializeField] float timeBetweenWaves;
 	[SerializeField] bool isLooping = true;
-	[SerializeField] bool isSpawning = true;
+	[SerializeField] bool isStarted = false;
 
 	int waveIndex = 0;
     // Start is called before the first frame update
@@ -26,9 +26,13 @@ public class EnemySpawner : MonoBehaviour
 
 		//Go through all waves and initiate them
 		for (waveIndex = 0; waveIndex < waveConfigsLen; waveIndex++) {
+			if (isStarted == false) { break; }
+
 			WaveConfig currentWave = waveConfigs[waveIndex];
 			yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
 		}
+
+		yield return new WaitForSeconds(0f);
 	}
 
 		private IEnumerator SpawnAllEnemiesInWave(WaveConfig currentWave) {
@@ -40,27 +44,20 @@ public class EnemySpawner : MonoBehaviour
 				currentWave.GetEnemyPrefab(),
 				currentWave.GetWaypoints()[0].position,
 				Quaternion.identity);
+
+			if (isStarted == false) { Destroy(newEnemy.gameObject); }
+
 			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave);
-
-			if(isSpawning == false) {
-				Destroy(newEnemy.gameObject);
-			}
-
 			yield return new WaitForSeconds(currentWave.GetTimeBetweenSpaws());
 		}
 	}
 
 	public void StartWaves() {
-		isSpawning = true;
+		isStarted = true;
 	}
 
 	public void StopWaves() {
-		isSpawning = false;
+		isStarted = false;
 	}
 
-	// Update is called once per frame
-	void Update()
-    {
-        
-    }
 }

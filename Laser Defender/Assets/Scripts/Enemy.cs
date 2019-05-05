@@ -5,9 +5,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	[Header("Enemy Configuration")]
+	[SerializeField] bool isStarted = false;
 	[SerializeField] int health;
 	[SerializeField] float speed = 5f;
 	[SerializeField] int scoreValue = 100;
+	[SerializeField] bool loopWave = false;
 
 	[Header("Laser Configuration")]
 	[SerializeField] float shotcounter;
@@ -20,7 +22,6 @@ public class Enemy : MonoBehaviour
 	[SerializeField] GameObject explosionParticles;
 	[SerializeField] AudioClip deathSound;
 	[SerializeField] AudioClip hitSound;
-	[SerializeField] bool isGameOver = false;
 	[SerializeField] float outofBoundsLeft = -5f;
 	[SerializeField] float outofBoundsRight = 5f;
 
@@ -51,7 +52,7 @@ public class Enemy : MonoBehaviour
 	
 	public void GameOver() {
 		wayPoints.Add(this.transform);
-		isGameOver = true;
+		isStarted = false;
 	}
 
 	private void Move() {
@@ -60,11 +61,11 @@ public class Enemy : MonoBehaviour
 			//Move towards next waypoint
 			var targetPosition = wayPoints[waypointIndex].position;
 
-			if (isGameOver) {
+			if (!isStarted) {
 				//If the game is over, move towards left of screen
 				//Check if the ship should move to the left or right
 				float outOfBounds = outofBoundsLeft;
-				if(transform.position.x > 0) { outOfBounds = outofBoundsRight; }
+				if (transform.position.x > 0) { outOfBounds = outofBoundsRight; }
 				targetPosition = new Vector2(outOfBounds, transform.position.y);
 			}
 
@@ -82,8 +83,11 @@ public class Enemy : MonoBehaviour
 			return;
 		}
 
-		//End of path reached
-		else {
+		//Loop the path
+		else if (loopWave) { }
+
+		//End of unlooping path reached
+		else { 
 			Destroy(this.gameObject);
 		}
 	}
@@ -91,8 +95,8 @@ public class Enemy : MonoBehaviour
 	private void CountdownShotCounter() {
 		shotcounter -= Time.deltaTime;
 
-		//If the shot counter is expired and the game hasn't ended, fire a laser
-		if (shotcounter <= 0f && isGameOver == false) {
+		//If the shot counter is expired and the game has started
+		if (shotcounter <= 0f && isStarted == true) {
 			StartCoroutine(Fire());
 			shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
 		}
@@ -147,11 +151,11 @@ public class Enemy : MonoBehaviour
 	private IEnumerator FlashRed() {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 		float flashTimer = 0.075f;
-		Color original = spriteRenderer.color;
 
-		spriteRenderer.color = Color.red;
+		Color hitColor = new Color(1f, 0.25f, 0.25f);	//A red colour
+		spriteRenderer.color = hitColor;
 		yield return new WaitForSeconds(flashTimer);
-		spriteRenderer.color = original;
+		spriteRenderer.color = Color.white;
 	}
 
 	private void HandleDeath() {

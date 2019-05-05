@@ -6,9 +6,18 @@ using TMPro;
 
 public class GameSession : MonoBehaviour
 {
+	[Header("Menu and Background")]
+	[SerializeField] Canvas menuCanvas;
+	[SerializeField] GameObject gameSpace;
 	[SerializeField] ParticleSystem closeStarfield;
 	[SerializeField] ParticleSystem farStarfield;
-	[SerializeField] BackgroundScroller backgroundScroller; 
+	[SerializeField] BackgroundScroller backgroundScroller;
+
+	[Header("Game Space")]
+	[SerializeField] Canvas gameCanvas;
+	[SerializeField] EnemySpawner enemySpawner;
+	[SerializeField] Player player;
+
 	private ScoreText scoreText;
 	private HealthText healthText;
 	private int score = 0;
@@ -20,6 +29,9 @@ public class GameSession : MonoBehaviour
 		scoreText = FindObjectOfType<ScoreText>();
 		healthText = FindObjectOfType<HealthText>();
 		UpdateScoreText();
+
+		menuCanvas.enabled = true;
+		gameCanvas.enabled = false;
     }
 
 	private void SetUpSingleton() {
@@ -28,11 +40,22 @@ public class GameSession : MonoBehaviour
 	}
 
 	public void StartGame() {
+		StartGameSpace();
+		menuCanvas.enabled = false;
+		gameCanvas.enabled = true;
 		backgroundScroller.StartScrolling();
 		closeStarfield.Play();
 		farStarfield.Play();
 
+		UpdateScoreText();
+		UpdateHealthText();
 		FindObjectOfType<EnemySpawner>().StartWaves();
+	}
+
+	private void StartGameSpace() {
+	}
+
+	private void EndGameSpace() {
 	}
 
 	public void StopGame() {
@@ -46,6 +69,12 @@ public class GameSession : MonoBehaviour
 
 		//Stop spawning enemies
 		FindObjectOfType<EnemySpawner>().StopWaves();
+
+		//Activate proper menu
+		gameCanvas.enabled = false;
+		menuCanvas.enabled = true;
+
+		ResetGame();
 	}
 
 	private void MoveAllEnemies() {
@@ -82,9 +111,11 @@ public class GameSession : MonoBehaviour
 		//Destroy all enemies still on screen
 		var enemies = FindObjectsOfType<Enemy>();
 		foreach (Enemy enemy in enemies) {
-			Destroy(enemy.gameObject);
+			//Destroy(enemy.gameObject);
 		}
 
-		Destroy(this.gameObject);
+		//Reset gameSession
+		score = 0;
+		health = 0;
 	}
 }

@@ -93,18 +93,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4fb2104c472fd4bb960fdf35faac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStarted: 1
   health: 5
   speed: 3
   scoreValue: 100
+  loopWave: 0
   shotcounter: 0
-  mintimeBetweenShots: 1.5
-  maxtimeBetweenShots: 4
+  mintimeBetweenShots: 2
+  maxtimeBetweenShots: 5
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
+  laserSpeed: 5
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
   deathSound: {fileID: 8300000, guid: 3a4d25ae892be494c97704be592e8402, type: 3}
   hitSound: {fileID: 8300000, guid: 0a8d64b396d1e6f4d9a67e5a791587d4, type: 3}
-  isGameOver: 0
   outofBoundsLeft: -5
   outofBoundsRight: 5
 --- !u!61 &3241877354647233817

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour {
-	[SerializeField] float scrollSpeed = 0.020f;
-	private float changeInScrollOffset = 0.001f;
+	[SerializeField] float scrollSpeed = 0.026f;
+	[SerializeField] float changeInScrollOffset = 0.002f;
 	[SerializeField] Material myMaterial;
 	[SerializeField] bool isScrolling = false;
 
