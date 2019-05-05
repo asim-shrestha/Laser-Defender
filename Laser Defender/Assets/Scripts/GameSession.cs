@@ -52,6 +52,7 @@ public class GameSession : MonoBehaviour
 		UpdateScoreText();
 		UpdateHealthText();
 		FindObjectOfType<EnemySpawner>().StartWaves();
+		player.StartPlayer();
 	}
 
 	private void StartGameSpace() {

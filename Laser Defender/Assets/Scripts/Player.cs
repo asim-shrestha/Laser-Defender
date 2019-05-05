@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
 	[Header("Player Configuration")]
 	[SerializeField] bool isStarted = false;
 	[SerializeField] bool isInvincible = false;
-	[SerializeField] int playerHealth = 3;
+	[SerializeField] int startingPlayerHealth = 3;
 	[SerializeField] float playerSpeed = 10f;
 	[SerializeField] float screenPadding = 1f;
 	[SerializeField] GameObject explosionParticles;
@@ -32,13 +32,25 @@ public class Player : MonoBehaviour {
 	private float YMin;
 	private float YMax;
 
+	private Vector3 originalPosition;
+	private int playerHealth;
 	private bool isFiring = false;
 
-	// Start is called before the first frame update
-	void Start() {
-		SetUpBoundaries();
+	public void StartPlayer() {
+		GetComponent<Transform>().position = originalPosition;
+		playerHealth = startingPlayerHealth;
+		gameObject.SetActive(true);
+		isStarted = true;
+		isFiring = false;
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
+		SetUpBoundaries();
 	}
+
+	void Start() {
+		originalPosition = this.GetComponent<Transform>().position;
+		gameObject.SetActive(false);
+	}
+
 
 	// Update is called once per frame
 	void Update() {
@@ -134,7 +146,6 @@ public class Player : MonoBehaviour {
 		if(isInvincible) { return; }
 
 		playerHealth -= damage;
-		StartCoroutine(InvincibilityAnimation());
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 
 		//Play sound
@@ -143,9 +154,11 @@ public class Player : MonoBehaviour {
 
 		if (playerHealth <= 0) {
 			HandleDeath();
-			Destroy(this.gameObject);
 			FindObjectOfType<GameSession>().StopGame();
+			return;
 		}
+
+		StartCoroutine(InvincibilityAnimation());
 	}
 
 	private IEnumerator InvincibilityAnimation() {
@@ -174,6 +187,7 @@ public class Player : MonoBehaviour {
 
 		float volume = 0.5f;
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
+		gameObject.SetActive(false);
 	}
 
 }
