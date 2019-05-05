@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour {
-	[SerializeField] float scrollSpeed = 0.05f;
+	[SerializeField] float scrollSpeed = 0.020f;
+	private float changeInScrollOffset = 0.001f;
 	[SerializeField] Material myMaterial;
 	[SerializeField] bool isScrolling = false;
 
@@ -12,14 +13,27 @@ public class BackgroundScroller : MonoBehaviour {
     void Start()
     {
 		myMaterial = GetComponent<Renderer>().material;
-		offSet = new Vector2(0f, scrollSpeed);
+		offSet = new Vector2(0f, 0f);
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-		if (isScrolling) { myMaterial.mainTextureOffset += offSet * Time.deltaTime; }
-    }
+	// Update is called once per frame
+	void Update() {
+		//If we're scrolling, increase scroll offset until the desired speed is reached
+		if (isScrolling) {
+			if (offSet.y < scrollSpeed) {
+				offSet = new Vector2(0f, offSet.y += changeInScrollOffset);
+			}
+		}
+
+		//Decrease scroll offset until the screen no longer scrolls
+		else {
+			if (offSet.y > 0) {
+				offSet = new Vector2(0f, offSet.y -= changeInScrollOffset);
+			}
+		}
+
+		myMaterial.mainTextureOffset += offSet * Time.deltaTime;
+	}
 
 	public void StartScrolling() {
 		isScrolling = true;

@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+	[Header("Enemy Configuration")]
 	[SerializeField] int health;
 	[SerializeField] float speed = 5f;
 	[SerializeField] int scoreValue = 100;
 
+	[Header("Laser Configuration")]
 	[SerializeField] float shotcounter;
 	[SerializeField] float mintimeBetweenShots = 0.2f;
 	[SerializeField] float maxtimeBetweenShots = 3f;
 	[SerializeField] GameObject laser;
-	float laserSpeed = 5f;
+	[SerializeField] float laserSpeed = 5f;
 
-	private WaveConfig waveConfig;
+	[Header("Other")]
 	[SerializeField] GameObject explosionParticles;
 	[SerializeField] AudioClip deathSound;
 	[SerializeField] AudioClip hitSound;
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] float outofBoundsLeft = -5f;
 	[SerializeField] float outofBoundsRight = 5f;
 
+	private WaveConfig waveConfig;
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
 
@@ -57,17 +60,16 @@ public class Enemy : MonoBehaviour
 			//Move towards next waypoint
 			var targetPosition = wayPoints[waypointIndex].position;
 
-			//If the game is over, move towards left of screen
 			if (isGameOver) {
+				//If the game is over, move towards left of screen
+				//Check if the ship should move to the left or right
 				float outOfBounds = outofBoundsLeft;
-
 				if(transform.position.x > 0) { outOfBounds = outofBoundsRight; }
-
 				targetPosition = new Vector2(outOfBounds, transform.position.y);
 			}
 
-			var movementhThisFrame = speed * Time.deltaTime;
-			transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementhThisFrame);
+			var movementThisFrame = speed * Time.deltaTime;
+			transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementThisFrame);
 
 			//Check if waypoint reached
 			if (transform.position == targetPosition) {
@@ -89,7 +91,7 @@ public class Enemy : MonoBehaviour
 	private void CountdownShotCounter() {
 		shotcounter -= Time.deltaTime;
 
-		//If the shot counter is expired and the game hasn't ended
+		//If the shot counter is expired and the game hasn't ended, fire a laser
 		if (shotcounter <= 0f && isGameOver == false) {
 			StartCoroutine(Fire());
 			shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
@@ -97,6 +99,7 @@ public class Enemy : MonoBehaviour
 	}
 
 	private IEnumerator Fire() {
+		//Create a laser that aims down
 		GameObject newLaser = Instantiate(
 			laser,
 			transform.position,
@@ -137,11 +140,11 @@ public class Enemy : MonoBehaviour
 		}
 
 		else {
-			StartCoroutine(HitAnimation());
+			StartCoroutine(FlashRed());
 		}
 	}
 
-	private IEnumerator HitAnimation() {
+	private IEnumerator FlashRed() {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 		float flashTimer = 0.075f;
 		Color original = spriteRenderer.color;

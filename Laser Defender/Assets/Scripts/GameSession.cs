@@ -39,10 +39,7 @@ public class GameSession : MonoBehaviour
 		//Stop the background
 		backgroundScroller.StopScrolling();
 		closeStarfield.Stop();
-		closeStarfield.Clear();
 		farStarfield.Stop();
-		farStarfield.Clear();
-
 
 		//Move enemies off screen
 		MoveAllEnemies();
