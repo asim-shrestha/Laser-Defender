@@ -32,15 +32,18 @@ public class Player : MonoBehaviour {
 	private float YMin;
 	private float YMax;
 
-	private Vector3 originalPosition;
 	private int playerHealth;
+	private Vector3 originalPosition;
+	private bool isStartAnimation = false;
 	private bool isFiring = false;
 
 	public void StartPlayer() {
 		GetComponent<Transform>().position = originalPosition;
 		playerHealth = startingPlayerHealth;
 		gameObject.SetActive(true);
+		this.GetComponent<SpriteRenderer>().sprite = middleSprite;
 		isStarted = true;
+		isStartAnimation = true;
 		isFiring = false;
 		FindObjectOfType<GameSession>().SetHealth(playerHealth);
 		SetUpBoundaries();
@@ -55,6 +58,19 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		if(!isStarted) { return; }
+
+		if (isStartAnimation) {
+			Vector3 gameStartPosition = new Vector3(transform.position.x, -3, 0);
+			float movementThisFrame = (playerSpeed / 2f) * Time.deltaTime;
+			transform.position = Vector2.MoveTowards(transform.position, gameStartPosition, movementThisFrame);
+
+			if(transform.position == gameStartPosition) {
+				isStartAnimation = false;
+			}
+
+			return;
+		}
+
 		MovePlayer();
 		Fire();
 	}
@@ -154,7 +170,7 @@ public class Player : MonoBehaviour {
 
 		if (playerHealth <= 0) {
 			HandleDeath();
-			FindObjectOfType<GameSession>().StopGame();
+			StartCoroutine(FindObjectOfType<GameSession>().StopGameSpace());
 			return;
 		}
 
@@ -179,15 +195,22 @@ public class Player : MonoBehaviour {
 	}
 
 	private void HandleDeath() {
+		//Create explosion
 		GameObject explosion = Instantiate(
 			explosionParticles,
 			transform.position,
 			Quaternion.identity);
 		Destroy(explosion, 1f);
 
+		//Play death sound
 		float volume = 0.5f;
 		AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, volume);
-		gameObject.SetActive(false);
+
+		isStarted = false;
+		isStartAnimation = false;
+		//Put player off screen
+		Vector2 offScreenPosition = new Vector2(-20f, -20f);
+		gameObject.GetComponent<Transform>().position = offScreenPosition;
 	}
 
 }

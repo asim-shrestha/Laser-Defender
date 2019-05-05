@@ -41,27 +41,29 @@ public class GameSession : MonoBehaviour
 
 	public void StartGame() {
 		score = 0;
-		health = 0;
-		StartGameSpace();
 		menuCanvas.enabled = false;
-		gameCanvas.enabled = true;
 		backgroundScroller.StartScrolling();
 		closeStarfield.Play();
 		farStarfield.Play();
 
+		StartCoroutine(StartGameSpace());
+		
+	}
+
+	private IEnumerator StartGameSpace() {
+		health = 0;
+		player.StartPlayer();
 		UpdateScoreText();
 		UpdateHealthText();
+		gameCanvas.enabled = true;
+
+		float waitTimer = 2f;
+		yield return new WaitForSeconds(waitTimer);
+
 		FindObjectOfType<EnemySpawner>().StartWaves();
-		player.StartPlayer();
 	}
 
-	private void StartGameSpace() {
-	}
-
-	private void EndGameSpace() {
-	}
-
-	public void StopGame() {
+	public IEnumerator StopGameSpace() {
 		//Stop the background
 		backgroundScroller.StopScrolling();
 		closeStarfield.Stop();
@@ -73,11 +75,25 @@ public class GameSession : MonoBehaviour
 		//Stop spawning enemies
 		FindObjectOfType<EnemySpawner>().StopWaves();
 
+		yield return new WaitForSeconds(1.5f);
+
 		//Activate proper menu
 		gameCanvas.enabled = false;
 		menuCanvas.enabled = true;
 
 		ResetGame();
+	}
+
+	public void ResetGame() {
+		//Destroy all enemies still on screen
+		var enemies = FindObjectsOfType<Enemy>();
+		foreach (Enemy enemy in enemies) {
+			//Destroy(enemy.gameObject);
+		}
+
+		//Reset gameSession
+		score = 0;
+		health = 0;
 	}
 
 	private void MoveAllEnemies() {
@@ -110,15 +126,4 @@ public class GameSession : MonoBehaviour
 	}
 
 
-	public void ResetGame() {
-		//Destroy all enemies still on screen
-		var enemies = FindObjectsOfType<Enemy>();
-		foreach (Enemy enemy in enemies) {
-			//Destroy(enemy.gameObject);
-		}
-
-		//Reset gameSession
-		score = 0;
-		health = 0;
-	}
 }
