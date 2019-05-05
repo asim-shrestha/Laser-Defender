@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
 		shotcounter -= Time.deltaTime;
 
 		//If the shot counter is expired and the game hasn't ended
-		if (shotcounter <= 0f && !isGameOver) {
+		if (shotcounter <= 0f && isGameOver == false) {
 			StartCoroutine(Fire());
 			shotcounter = Random.Range(mintimeBetweenShots, maxtimeBetweenShots);
 		}
@@ -135,6 +135,20 @@ public class Enemy : MonoBehaviour
 			HandleDeath();
 			Destroy(this.gameObject);
 		}
+
+		else {
+			StartCoroutine(HitAnimation());
+		}
+	}
+
+	private IEnumerator HitAnimation() {
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+		float flashTimer = 0.075f;
+		Color original = spriteRenderer.color;
+
+		spriteRenderer.color = Color.red;
+		yield return new WaitForSeconds(flashTimer);
+		spriteRenderer.color = original;
 	}
 
 	private void HandleDeath() {
