@@ -40,8 +40,7 @@ public class GameSession : MonoBehaviour
 	}
 
 	public void StartGame() {
-		score = 0;
-		menuCanvas.enabled = false;
+		//Enable background
 		backgroundScroller.StartScrolling();
 		closeStarfield.Play();
 		farStarfield.Play();
@@ -51,15 +50,26 @@ public class GameSession : MonoBehaviour
 	}
 
 	private IEnumerator StartGameSpace() {
+		float waitTimer = 2f;
+
+		//Wait for the background scrolling to start
+		//Move menu text
+		menuCanvas.GetComponent<CanvasController>().StartTransitionOut();
+		yield return new WaitForSeconds(waitTimer / 2f);
+
+		//Enable player
+		score = 0;
 		health = 0;
 		player.StartPlayer();
 		UpdateScoreText();
 		UpdateHealthText();
+
 		gameCanvas.enabled = true;
 
-		float waitTimer = 2f;
+
 		yield return new WaitForSeconds(waitTimer);
 
+		//Start waves
 		FindObjectOfType<EnemySpawner>().StartWaves();
 	}
 

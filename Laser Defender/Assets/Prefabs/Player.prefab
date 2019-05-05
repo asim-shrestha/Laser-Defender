@@ -96,15 +96,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStarted: 0
   isInvincible: 0
-  playerHealth: 3
+  startingPlayerHealth: 3
   playerSpeed: 10
   screenPadding: 0.2
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
   deathSound: {fileID: 8300000, guid: 3a4d25ae892be494c97704be592e8402, type: 3}
   hitsounds: {fileID: 8300000, guid: 0a8d64b396d1e6f4d9a67e5a791587d4, type: 3}
-  laserPrefab: {fileID: 1561963813005712889, guid: d0b67ef213d60ca45bfd196dd606c457,
-    type: 3}
+  laserPrefabs:
+  - {fileID: 1561963813005712889, guid: d0b67ef213d60ca45bfd196dd606c457, type: 3}
+  - {fileID: 6323906490965048946, guid: 9e88c6591b7341e4bb384ce2b69b9314, type: 3}
+  - {fileID: 2354293809374097547, guid: 120f51975ffde9d499e7eb4df56c4552, type: 3}
+  laserIndex: 0
   laserSpeed: 5
   fireDelay: 0.3
   leftSprite: {fileID: 21300000, guid: ceba2a3fedb9edd48a3a506e858c28b8, type: 3}

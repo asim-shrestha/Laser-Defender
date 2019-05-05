@@ -16,8 +16,10 @@ public class Player : MonoBehaviour {
 	[SerializeField] AudioClip hitsounds;
 
 	[Header("Projectile")]
-	[SerializeField] GameObject laserPrefab;
-	[SerializeField] float laserSpeed = 10f;
+	[SerializeField] List<GameObject> laserPrefabs;
+	[SerializeField] int laserIndex = 0;
+	[SerializeField] float originalLaserSpeed = 10f;
+	[SerializeField] float laserSpeed = 0f;
 	[SerializeField] float fireDelay = 0.2f;
 
 	//Sprites
@@ -42,6 +44,8 @@ public class Player : MonoBehaviour {
 		playerHealth = startingPlayerHealth;
 		gameObject.SetActive(true);
 		this.GetComponent<SpriteRenderer>().sprite = middleSprite;
+		laserIndex = 0;
+		laserSpeed = originalLaserSpeed;
 		isStarted = true;
 		isStartAnimation = true;
 		isFiring = false;
@@ -60,19 +64,23 @@ public class Player : MonoBehaviour {
 		if(!isStarted) { return; }
 
 		if (isStartAnimation) {
-			Vector3 gameStartPosition = new Vector3(transform.position.x, -3, 0);
-			float movementThisFrame = (playerSpeed / 2f) * Time.deltaTime;
-			transform.position = Vector2.MoveTowards(transform.position, gameStartPosition, movementThisFrame);
-
-			if(transform.position == gameStartPosition) {
-				isStartAnimation = false;
-			}
+			StartAnimation();
 
 			return;
 		}
 
 		MovePlayer();
 		Fire();
+	}
+
+	private void StartAnimation() {
+		Vector3 gameStartPosition = new Vector3(transform.position.x, -3, 0);
+		float movementThisFrame = (playerSpeed / 2f) * Time.deltaTime;
+		transform.position = Vector2.MoveTowards(transform.position, gameStartPosition, movementThisFrame);
+
+		if (transform.position == gameStartPosition) {
+			isStartAnimation = false;
+		}
 	}
 
 	private void SetUpBoundaries() {
@@ -124,7 +132,7 @@ public class Player : MonoBehaviour {
 	IEnumerator FireContinuously() {
 		//Runs until spacebar is released
 		GameObject laser = Instantiate(
-			laserPrefab,
+			laserPrefabs[0],
 			transform.position,
 			Quaternion.identity);
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Math.Max(playerSpeed, laserSpeed));
