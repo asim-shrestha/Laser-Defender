@@ -40,6 +40,8 @@ public class GameSession : MonoBehaviour
 	}
 
 	public void StartGame() {
+		score = 0;
+		health = 0;
 		StartGameSpace();
 		menuCanvas.enabled = false;
 		gameCanvas.enabled = true;

@@ -119,7 +119,12 @@ public class Player : MonoBehaviour {
 		DamageDealer damageDealer = collision.gameObject.GetComponent<DamageDealer>();
 
 		//If damageDealer is null, return
-		if (!damageDealer) { return; }
+		if (!damageDealer) {
+			//If it is not a damageDealer (laser) and is an enemy instead, deal damage
+			int enemyCollisionDamage = 1;
+			if (collision.gameObject.GetComponent<Enemy>()) { HandleDamage(enemyCollisionDamage); }
+			return;
+		}
 
 		this.HandleDamage(damageDealer.GetDamage());
 		damageDealer.HandleHit();
