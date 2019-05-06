@@ -48,8 +48,8 @@ public class GameSession : MonoBehaviour
 		//Wait for the background scrolling to start
 		//Move menu text
 		menuCanvas.GetComponent<CanvasController>().StartTransitionOut();
+		yield return new WaitForSeconds(waitTimer / 2.5f);
 		gameCanvas.GetComponent<CanvasController>().StartTransitionIn();
-		yield return new WaitForSeconds(waitTimer / 2f);
 
 		//Enable player
 		ResetGame();
