@@ -18,20 +18,13 @@ public class GameSession : MonoBehaviour
 	[SerializeField] EnemySpawner enemySpawner;
 	[SerializeField] Player player;
 
-	private ScoreText scoreText;
-	private HealthText healthText;
-	private int score = 0;
-	private int health = 0;
+	[SerializeField] private int score = 0;
+	[SerializeField] private int health = 0;
     // Start is called before the first frame update
     void Awake()
     {
 		SetUpSingleton();
-		scoreText = FindObjectOfType<ScoreText>();
-		healthText = FindObjectOfType<HealthText>();
-		UpdateScoreText();
-
-		menuCanvas.enabled = true;
-		gameCanvas.enabled = false;
+		gameCanvas.GetComponent<CanvasController>().StartTransitionOut();
     }
 
 	private void SetUpSingleton() {
@@ -55,16 +48,15 @@ public class GameSession : MonoBehaviour
 		//Wait for the background scrolling to start
 		//Move menu text
 		menuCanvas.GetComponent<CanvasController>().StartTransitionOut();
+		gameCanvas.GetComponent<CanvasController>().StartTransitionIn();
 		yield return new WaitForSeconds(waitTimer / 2f);
 
 		//Enable player
-		score = 0;
-		health = 0;
+		ResetGame();
 		player.StartPlayer();
-		UpdateScoreText();
+		UpdateScoreTexts();
 		UpdateHealthText();
 
-		gameCanvas.enabled = true;
 
 
 		yield return new WaitForSeconds(waitTimer);
@@ -85,13 +77,11 @@ public class GameSession : MonoBehaviour
 		//Stop spawning enemies
 		FindObjectOfType<EnemySpawner>().StopWaves();
 
-		yield return new WaitForSeconds(1.5f);
-
-		//Activate proper menu
-		gameCanvas.enabled = false;
-		menuCanvas.enabled = true;
-
-		ResetGame();
+		//Activate and disable canvases 
+		yield return new WaitForSeconds(1f);
+		gameCanvas.GetComponent<CanvasController>().StartTransitionOut();
+		yield return new WaitForSeconds(0.5f);
+		menuCanvas.GetComponent<CanvasController>().StartTransitionIn();
 	}
 
 	public void ResetGame() {
@@ -113,27 +103,28 @@ public class GameSession : MonoBehaviour
 		}
 	}
 	public void ChangeScore(int scoreValue) {
-		if (scoreText == null) { return; }
 		score += scoreValue;
-		UpdateScoreText();
+		UpdateScoreTexts();
 	}
 
+    void UpdateScoreTexts()
+    {
+		ScoreText[] scoreTexts = FindObjectsOfType<ScoreText>();
+		if (scoreTexts.Length == 0) { return; }
+		foreach (ScoreText scoreText in scoreTexts) {
+			scoreText.UpdateScore(score);
+		}
+    }
+
 	public void SetHealth(int health) {
-		if (healthText == null) { return; }
 		this.health = health;
 		UpdateHealthText();
 	}
 
-    void UpdateScoreText()
-    {
-		if (scoreText == null) { return; }
-		scoreText.UpdateScore(score);
-    }
-
 	void UpdateHealthText() {
-		if (scoreText == null) { return; }
+		HealthText healthText = FindObjectOfType<HealthText>();
+		if(healthText == null) { return; }
 		healthText.UpdateHealth(health);
 	}
-
 
 }

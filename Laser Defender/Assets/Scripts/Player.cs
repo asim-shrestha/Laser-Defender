@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void StartAnimation() {
-		Vector3 gameStartPosition = new Vector3(transform.position.x, -3, 0);
+		Vector3 gameStartPosition = new Vector3(transform.position.x, -4f, 0);
 		float movementThisFrame = (playerSpeed / 2f) * Time.deltaTime;
 		transform.position = Vector2.MoveTowards(transform.position, gameStartPosition, movementThisFrame);
 

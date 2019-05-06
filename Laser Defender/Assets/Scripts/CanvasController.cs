@@ -8,8 +8,8 @@ public class CanvasController : MonoBehaviour
 	[SerializeField] List<GameObject> canvasElements;
 	[SerializeField] float transitionSpeed = 5f;
 	[SerializeField] int transitionState = 0;
-	[SerializeField] float outOfBoundsRight = 5f;
-	[SerializeField] float outOfBoundsLeft  = -5f;
+	[SerializeField] float outOfBoundsRight = 500;
+	[SerializeField] float outOfBoundsLeft  = -500;
 
 	public void transitionOut() {
 		int placementCounts = 0;
@@ -19,7 +19,7 @@ public class CanvasController : MonoBehaviour
 			//For each canvasElement, move it off screen
 			Vector3 outPosition = findOutOfBoundsPosition(canvasObject);
 			float movementThisFrame = (transitionSpeed) * Time.deltaTime;
-			objectTransform.position = Vector2.MoveTowards(objectTransform.position, outPosition, movementThisFrame);
+			objectTransform.position = Vector3.MoveTowards(objectTransform.position, outPosition, movementThisFrame);
 
 			if (objectTransform.position == outPosition) {
 				//One more object has been placed properly
@@ -47,13 +47,14 @@ public class CanvasController : MonoBehaviour
 		int placementCounts = 0;
 
 		foreach (GameObject canvasObject in canvasElements) {
+			RectTransform objectTransform = canvasObject.GetComponent<RectTransform>();
 			//For each canvasElement, move it off screen
 			float inXPosition = canvasObject.GetComponent<CanvasElement>().GetInXPosition();
-			Vector3 inPosition = new Vector3(inXPosition, transform.position.y, transform.position.z); 
+			Vector3 inPosition = new Vector3(inXPosition, objectTransform.position.y, objectTransform.position.z);
 			float movementThisFrame = (transitionSpeed) * Time.deltaTime;
-			transform.position = Vector2.MoveTowards(transform.position, inPosition, movementThisFrame);
+			objectTransform.position = Vector3.MoveTowards(objectTransform.position, inPosition, movementThisFrame);
 
-			if (transform.position == inPosition) {
+			if (objectTransform.position == inPosition) {
 				//One more object has been placed properly
 				placementCounts++;
 			}
@@ -63,8 +64,8 @@ public class CanvasController : MonoBehaviour
 		if (placementCounts == canvasElements.Count) { transitionState = 0; }
 	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
 		//STATES:	
 		//		0 = no transition
