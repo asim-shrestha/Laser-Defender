@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5526635192835771928}
   - component: {fileID: 3241877354647233817}
   m_Layer: 10
-  m_Name: Enemy 1
+  m_Name: Enemy 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 14b3d4c18c7134941bac2eaa8762ebc9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89eacebf74ac2634880119436bbae259, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,19 +94,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStarted: 1
-  health: 7
-  speed: 5
-  scoreValue: 100
+  health: 15
+  speed: 7
+  scoreValue: 150
   loopWave: 1
   stayAtPathEnd: 0
   canDropPowers: 1
-  dropRate: 3
+  dropRate: 5
   powerUp: {fileID: 4262701471460247033, guid: c3fdf93514d5e4a4b92dbbfe0a08782c, type: 3}
   shotcounter: 0
-  mintimeBetweenShots: 0.5
-  maxtimeBetweenShots: 3
+  mintimeBetweenShots: 0
+  maxtimeBetweenShots: 1.25
   laser: {fileID: 4264696274548332402, guid: 4a2353c2a024c9e458a03ec84f2020c7, type: 3}
-  laserSpeed: 7
+  laserSpeed: 8
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
   deathSound: {fileID: 8300000, guid: 3a4d25ae892be494c97704be592e8402, type: 3}
@@ -130,7 +130,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.04, y: 0.84}
+    oldSize: {x: 0.82, y: 0.84}
     newSize: {x: 0.98, y: 0.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

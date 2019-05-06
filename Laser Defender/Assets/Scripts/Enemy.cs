@@ -183,6 +183,8 @@ public class Enemy : MonoBehaviour
 	}
 
 	private void HandlePowerUps() {
+		if(!canDropPowers) { return; }
+
 		float randomNum = Random.Range(0f, 10f);
 		if(dropRate > randomNum) {
 			dropPowerUp();

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b749021f8674e4d993433306c02b2e, type: 3}
   m_Name: Points 2
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4781232982340349896, guid: 77f483b429a67e94a9e7abfbf6b9f450,
+  enemyPrefab: {fileID: 4781232982340349896, guid: 924cf3a008d8bbf41a46d4b7d4b5b661,
     type: 3}
-  numberOfEnemies: 4
-  pathPrefab: {fileID: 9044632559904638696, guid: 06bf86f1e0949754aaef853a6c8f8c7a,
+  numberOfEnemies: 9
+  pathPrefab: {fileID: 9044632559904638696, guid: b0082b7047d99ab4e8da6f7f332051b1,
     type: 3}
-  timeBetweenSpawns: 1
+  timeBetweenSpawns: 0
   spawnRandomFactor: 0

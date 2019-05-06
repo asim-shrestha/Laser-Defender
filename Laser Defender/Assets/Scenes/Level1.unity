@@ -229,9 +229,11 @@ MonoBehaviour:
   waveConfigs:
   - {fileID: 11400000, guid: e52b48fce382fae4e8fefa7d13bf3c95, type: 2}
   - {fileID: 11400000, guid: 7f944345fb38acb449387bfc11b37ec0, type: 2}
+  - {fileID: 11400000, guid: a6f0bec5bc93f4247ac8197a68412ec3, type: 2}
   pointConfigs:
   - {fileID: 11400000, guid: 6af8e92a07eb23444a7f68561daa05fc, type: 2}
   - {fileID: 11400000, guid: 4cab7f44dfcdf6646b898b0460485ac8, type: 2}
+  - {fileID: 11400000, guid: f01e1c0bdd64294418a4a923afaf4027, type: 2}
   timeBetweenWaves: 2
   isLooping: 1
   isStarted: 0
@@ -1121,7 +1123,7 @@ GameObject:
   - component: {fileID: 1027320934}
   m_Layer: 5
   m_Name: Game canvas
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1855,6 +1857,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
+        type: 3}
+      propertyPath: originalLaserSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
+        type: 3}
+      propertyPath: playerSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6365689642005646162, guid: 870edf6a50b182e4088dcce2866f6f8a,
         type: 3}

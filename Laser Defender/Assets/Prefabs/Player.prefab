@@ -97,7 +97,7 @@ MonoBehaviour:
   isStarted: 0
   isInvincible: 0
   startingPlayerHealth: 3
-  playerSpeed: 5
+  playerSpeed: 6
   screenPadding: 0.2
   explosionParticles: {fileID: 4302109899730878470, guid: 59559c1c5e2a1f040b0829c03eb723a7,
     type: 3}
@@ -109,7 +109,8 @@ MonoBehaviour:
   - {fileID: 2354293809374097547, guid: 120f51975ffde9d499e7eb4df56c4552, type: 3}
   laserIndex: 0
   originalLaserSpeed: 6
-  laserSpeed: 5
+  laserSpeed: 6
+  originalFireDelay: 0.2
   fireDelay: 0.3
   leftSprite: {fileID: 21300000, guid: ceba2a3fedb9edd48a3a506e858c28b8, type: 3}
   middleSprite: {fileID: 21300000, guid: 88dfff302f832494b832a51c433a9505, type: 3}

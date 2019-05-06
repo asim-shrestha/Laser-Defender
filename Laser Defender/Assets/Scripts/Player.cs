@@ -20,7 +20,8 @@ public class Player : MonoBehaviour {
 	[SerializeField] int laserIndex = 0;
 	[SerializeField] float originalLaserSpeed = 10f;
 	[SerializeField] float laserSpeed = 0f;
-	[SerializeField] float fireDelay = 0.2f;
+	[SerializeField] float originalFireDelay = 0.2f;
+	[SerializeField] float fireDelay = 0f;
 
 	//Sprites
 	[Header("Sprites")]
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour {
 		this.GetComponent<SpriteRenderer>().sprite = middleSprite;
 		laserIndex = 0;
 		laserSpeed = originalLaserSpeed;
+		fireDelay = originalFireDelay;
 		isStarted = true;
 		isStartAnimation = true;
 		isFiring = false;
@@ -132,7 +134,7 @@ public class Player : MonoBehaviour {
 	IEnumerator FireContinuously() {
 		//Runs until spacebar is released
 		GameObject laser = Instantiate(
-			laserPrefabs[0],
+			laserPrefabs[laserIndex],
 			transform.position,
 			Quaternion.identity);
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Math.Max(playerSpeed, laserSpeed));
@@ -152,6 +154,12 @@ public class Player : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
+		if (collision.tag == "PowerUp") {
+			collision.gameObject.GetComponent<DamageDealer>().HandleHit();
+			PowerUpLaser();
+			return;
+		}
+
 		DamageDealer damageDealer = collision.gameObject.GetComponent<DamageDealer>();
 
 		//If damageDealer is null, return
@@ -164,6 +172,31 @@ public class Player : MonoBehaviour {
 
 		this.HandleDamage(damageDealer.GetDamage());
 		damageDealer.HandleHit();
+	}
+
+	private void PowerUpLaser() {
+		//Upgrade laser
+		laserIndex++;
+
+		//Fix index if we are out of range
+		if(laserIndex >= laserPrefabs.Count) {
+			laserIndex--;
+		}
+
+		playerSpeed += 1f;
+		laserSpeed += 1f;
+		fireDelay -= 0.025f;
+
+		//Cap speeds
+		if(playerSpeed > 10f) {
+			playerSpeed = 10f;
+			laserSpeed = 10f;
+		}
+
+		//Make sure fireDelay is more than 0
+		if(fireDelay < 0) {
+			fireDelay = 0;
+		}
 	}
 
 	private void HandleDamage(int damage) {
