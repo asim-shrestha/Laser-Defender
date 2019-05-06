@@ -6,9 +6,12 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 	[SerializeField] List<WaveConfig> waveConfigs;
+	[SerializeField] List<WaveConfig> pointConfigs;
 	[SerializeField] float timeBetweenWaves;
 	[SerializeField] bool isLooping = true;
 	[SerializeField] bool isStarted = false;
+
+	[SerializeField] int enemyCount = 0;
 
 	int waveIndex = 0;
     // Start is called before the first frame update
@@ -46,10 +49,15 @@ public class EnemySpawner : MonoBehaviour
 				Quaternion.identity);
 
 			if (isStarted == false) { Destroy(newEnemy.gameObject); }
+			else { enemyCount++; }
 
 			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave);
 			yield return new WaitForSeconds(currentWave.GetTimeBetweenSpaws());
 		}
+	}
+
+	public void RemoveEnemy() {
+		if (enemyCount >= 0) { enemyCount--; }
 	}
 
 	public void StartWaves() {

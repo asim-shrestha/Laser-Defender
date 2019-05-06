@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] float speed = 5f;
 	[SerializeField] int scoreValue = 100;
 	[SerializeField] bool loopWave = false;
+	[SerializeField] bool stayAtPathEnd = false;
 
 	[Header("Laser Configuration")]
 	[SerializeField] float shotcounter;
@@ -52,6 +53,8 @@ public class Enemy : MonoBehaviour
 	
 	public void GameOver() {
 		wayPoints.Add(this.transform);
+		stayAtPathEnd = false;
+		loopWave = false;
 		isStarted = false;
 	}
 
@@ -83,12 +86,23 @@ public class Enemy : MonoBehaviour
 			return;
 		}
 
-		//Loop the path
-		else if (loopWave) { }
-
 		//End of unlooping path reached
-		else { 
+		else if (stayAtPathEnd) {
+			wayPoints.Clear();
+			waypointIndex = 0;
+			stayAtPathEnd = false;
+		}
+
+		//Loop the path
+		else if (loopWave && (wayPoints.Count > 0)) {
+			transform.position = wayPoints[0].position;
+			waypointIndex = 1;
+		}
+
+
+		else {
 			Destroy(this.gameObject);
+			FindObjectOfType<EnemySpawner>().RemoveEnemy();
 		}
 	}
 
@@ -141,6 +155,7 @@ public class Enemy : MonoBehaviour
 		if (health <= 0) {
 			HandleDeath();
 			Destroy(this.gameObject);
+			FindObjectOfType<EnemySpawner>().RemoveEnemy();
 		}
 
 		else {

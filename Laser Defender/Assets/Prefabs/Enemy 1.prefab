@@ -97,7 +97,8 @@ MonoBehaviour:
   health: 5
   speed: 3
   scoreValue: 100
-  loopWave: 0
+  loopWave: 1
+  stayAtPathEnd: 0
   shotcounter: 0
   mintimeBetweenShots: 2
   maxtimeBetweenShots: 5
