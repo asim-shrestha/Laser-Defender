@@ -26,7 +26,6 @@ public class EnemySpawner : MonoBehaviour
 
 	private IEnumerator SpawnAllWaves() {
 		int waveConfigsLen = waveConfigs.Count;
-		enemyCount = 0;
 
 		//Go through all waves and initiate them
 		for (waveIndex = 0; waveIndex < waveConfigsLen; waveIndex++) {
@@ -40,10 +39,16 @@ public class EnemySpawner : MonoBehaviour
 			}
 
 
+			//Get configurations
 			WaveConfig currentWave = waveConfigs[waveIndex];
-			yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
-
 			WaveConfig currentPoints = pointConfigs[waveIndex];
+
+			//Get enemy count for wave and points
+			enemyCount += currentWave.GetNumberOfEnemies();
+			enemyCount += currentPoints.GetNumberOfEnemies();
+
+			//Spawn enemies
+			yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
 			yield return StartCoroutine(SpawnAllEnemiesInPoints(currentPoints));
 		}
 
@@ -56,14 +61,12 @@ public class EnemySpawner : MonoBehaviour
 		Vector3 startingPosition = new Vector3(0f, 7f, 0f);
 
 		//Spawn enemies and set their wave configuration
-		for (int i = 0; i < numberOfEnemies - 1; i++) {
+		for (int i = 0; i < numberOfEnemies; i++) {
 			GameObject newEnemy = Instantiate(
 				currentPoints.GetEnemyPrefab(),
 				startingPosition,
 				Quaternion.identity);
 
-			if (isStarted == false) { Destroy(newEnemy.gameObject); }
-			else { enemyCount++; }
 
 			List<Transform> wayPoints = new List<Transform>();
 			wayPoints.Add(newEnemy.transform);
@@ -71,13 +74,18 @@ public class EnemySpawner : MonoBehaviour
 
 			newEnemy.GetComponent<Enemy>().SetWaveConfig(wayPoints);
 			newEnemy.GetComponent<Enemy>().StayAtPathEnd();
-			yield return new WaitForSeconds(currentPoints.GetTimeBetweenSpaws() / 3f);
+
+			if (isStarted == false) {
+				enemyCount--;
+				Destroy(newEnemy.gameObject);
+			}
+
+			yield return new WaitForSeconds(currentPoints.GetTimeBetweenSpaws());
 		}
 	}
 
 	private IEnumerator SpawnAllEnemiesInWave(WaveConfig currentWave) {
 		int numberOfEnemies = currentWave.GetNumberOfEnemies();
-		numberOfEnemies = Math.Abs(numberOfEnemies);
 
 		//Spawn enemies and set their wave configuration
 		for (int i = 0; i < numberOfEnemies; i++) {
@@ -86,10 +94,10 @@ public class EnemySpawner : MonoBehaviour
 				currentWave.GetWaypoints()[0].position,
 				Quaternion.identity);
 
-			if (isStarted == false) { Destroy(newEnemy.gameObject); }
-			else { enemyCount++; }
-
 			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave.GetWaypoints());
+
+			if (isStarted == false) { Destroy(newEnemy.gameObject); }
+
 			yield return new WaitForSeconds(currentWave.GetTimeBetweenSpaws());
 		}
 	}

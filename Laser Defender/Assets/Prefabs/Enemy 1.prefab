@@ -99,6 +99,9 @@ MonoBehaviour:
   scoreValue: 100
   loopWave: 1
   stayAtPathEnd: 0
+  canDropPowers: 0
+  dropRate: 5
+  powerUp: {fileID: 4262701471460247033, guid: c3fdf93514d5e4a4b92dbbfe0a08782c, type: 3}
   shotcounter: 0
   mintimeBetweenShots: 2
   maxtimeBetweenShots: 5

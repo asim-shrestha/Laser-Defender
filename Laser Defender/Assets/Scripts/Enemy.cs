@@ -12,6 +12,11 @@ public class Enemy : MonoBehaviour
 	[SerializeField] bool loopWave = false;
 	[SerializeField] bool stayAtPathEnd = false;
 
+	[Header("Power Up Drop")]
+	[SerializeField] bool canDropPowers = false;
+	[SerializeField] [Range(0,10)] float dropRate= 5f;
+	[SerializeField] GameObject powerUp;
+
 	[Header("Laser Configuration")]
 	[SerializeField] float shotcounter;
 	[SerializeField] float mintimeBetweenShots = 0.2f;
@@ -157,6 +162,7 @@ public class Enemy : MonoBehaviour
 
 		if (health <= 0) {
 			HandleDeath();
+			HandlePowerUps();
 			Destroy(this.gameObject);
 			FindObjectOfType<EnemySpawner>().RemoveEnemy();
 		}
@@ -174,6 +180,17 @@ public class Enemy : MonoBehaviour
 		spriteRenderer.color = hitColor;
 		yield return new WaitForSeconds(flashTimer);
 		spriteRenderer.color = Color.white;
+	}
+
+	private void HandlePowerUps() {
+		float randomNum = Random.Range(0f, 10f);
+		if(dropRate > randomNum) {
+			dropPowerUp();
+		}
+	}
+
+	private void dropPowerUp() {
+		Instantiate(powerUp, transform.position, Quaternion.identity);
 	}
 
 	private void HandleDeath() {

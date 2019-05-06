@@ -229,7 +229,6 @@ MonoBehaviour:
   waveConfigs:
   - {fileID: 11400000, guid: e52b48fce382fae4e8fefa7d13bf3c95, type: 2}
   - {fileID: 11400000, guid: 7f944345fb38acb449387bfc11b37ec0, type: 2}
-  - {fileID: 0}
   pointConfigs:
   - {fileID: 11400000, guid: 6af8e92a07eb23444a7f68561daa05fc, type: 2}
   - {fileID: 11400000, guid: 4cab7f44dfcdf6646b898b0460485ac8, type: 2}
@@ -727,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71f8f1f68769b34b9fe1ce88bf375ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inXPosition: 150
+  inXPosition: 175
   fadeOutSide: 0
 --- !u!1 &678908235
 GameObject:
@@ -1099,7 +1098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71f8f1f68769b34b9fe1ce88bf375ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inXPosition: 100
+  inXPosition: 120
   fadeOutSide: 1
 --- !u!198 &916875363 stripped
 ParticleSystem:
@@ -1411,7 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71f8f1f68769b34b9fe1ce88bf375ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inXPosition: 150
+  inXPosition: 175
   fadeOutSide: 0
 --- !u!1 &1437307873
 GameObject:
@@ -1641,7 +1640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71f8f1f68769b34b9fe1ce88bf375ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inXPosition: 150
+  inXPosition: 175
   fadeOutSide: 1
 --- !u!1 &1992381337
 GameObject:
@@ -1856,27 +1855,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
-        type: 3}
-      propertyPath: playerSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
-        type: 3}
-      propertyPath: fireDelay
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
-        type: 3}
-      propertyPath: laserPrefab
-      value: 
-      objectReference: {fileID: 1561963813005712889, guid: d0b67ef213d60ca45bfd196dd606c457,
-        type: 3}
-    - target: {fileID: 6365689642005646160, guid: 870edf6a50b182e4088dcce2866f6f8a,
-        type: 3}
-      propertyPath: originalLaserSpeed
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6365689642005646162, guid: 870edf6a50b182e4088dcce2866f6f8a,
         type: 3}
