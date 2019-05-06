@@ -183,7 +183,7 @@ public class Player : MonoBehaviour {
 			laserIndex--;
 		}
 
-		playerSpeed += 1f;
+		playerSpeed += 0.5f;
 		laserSpeed += 1f;
 		fireDelay -= 0.025f;
 
