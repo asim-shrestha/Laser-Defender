@@ -33,21 +33,51 @@ public class EnemySpawner : MonoBehaviour
 			if (isStarted == false) { break; }
 
 			//Check if the last wave has finished yet
-			//if(enemyCount > 0) {
-				//waveIndex--;
-				//continue;
-			//}
+			if(enemyCount > 0) {
+				waveIndex--;
+				yield return new WaitForSeconds(timeBetweenWaves);
+				continue;
+			}
 
 
 			WaveConfig currentWave = waveConfigs[waveIndex];
 			yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
+
+			WaveConfig currentPoints = pointConfigs[waveIndex];
+			yield return StartCoroutine(SpawnAllEnemiesInPoints(currentPoints));
 		}
 
+		//If the for loop is not reached
 		yield return new WaitForSeconds(0f);
 	}
 
-		private IEnumerator SpawnAllEnemiesInWave(WaveConfig currentWave) {
+	private IEnumerator SpawnAllEnemiesInPoints(WaveConfig currentPoints) {
+		int numberOfEnemies = currentPoints.GetNumberOfEnemies();
+		Vector3 startingPosition = new Vector3(0f, 7f, 0f);
+
+		//Spawn enemies and set their wave configuration
+		for (int i = 0; i < numberOfEnemies - 1; i++) {
+			GameObject newEnemy = Instantiate(
+				currentPoints.GetEnemyPrefab(),
+				startingPosition,
+				Quaternion.identity);
+
+			if (isStarted == false) { Destroy(newEnemy.gameObject); }
+			else { enemyCount++; }
+
+			List<Transform> wayPoints = new List<Transform>();
+			wayPoints.Add(newEnemy.transform);
+			wayPoints.Add(currentPoints.GetWaypoints()[i]);
+
+			newEnemy.GetComponent<Enemy>().SetWaveConfig(wayPoints);
+			newEnemy.GetComponent<Enemy>().StayAtPathEnd();
+			yield return new WaitForSeconds(currentPoints.GetTimeBetweenSpaws() / 3f);
+		}
+	}
+
+	private IEnumerator SpawnAllEnemiesInWave(WaveConfig currentWave) {
 		int numberOfEnemies = currentWave.GetNumberOfEnemies();
+		numberOfEnemies = Math.Abs(numberOfEnemies);
 
 		//Spawn enemies and set their wave configuration
 		for (int i = 0; i < numberOfEnemies; i++) {
@@ -59,7 +89,7 @@ public class EnemySpawner : MonoBehaviour
 			if (isStarted == false) { Destroy(newEnemy.gameObject); }
 			else { enemyCount++; }
 
-			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave);
+			newEnemy.GetComponent<Enemy>().SetWaveConfig(currentWave.GetWaypoints());
 			yield return new WaitForSeconds(currentWave.GetTimeBetweenSpaws());
 		}
 	}

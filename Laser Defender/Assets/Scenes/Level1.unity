@@ -233,7 +233,7 @@ MonoBehaviour:
   pointConfigs:
   - {fileID: 11400000, guid: 6af8e92a07eb23444a7f68561daa05fc, type: 2}
   - {fileID: 11400000, guid: 4cab7f44dfcdf6646b898b0460485ac8, type: 2}
-  timeBetweenWaves: 3
+  timeBetweenWaves: 2
   isLooping: 1
   isStarted: 0
   enemyCount: 0

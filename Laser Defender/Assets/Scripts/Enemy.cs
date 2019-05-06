@@ -30,8 +30,8 @@ public class Enemy : MonoBehaviour
 	List<Transform> wayPoints = new List<Transform>();
 	private int waypointIndex = 0;
 
-	public void SetWaveConfig(WaveConfig waveConfig) {
-		wayPoints = waveConfig.GetWaypoints();
+	public void SetWaveConfig(List<Transform> wayPoints) {
+		this.wayPoints = wayPoints;
 
 		//Place enemy on the first waypoint
 		transform.position = wayPoints[waypointIndex].position;
@@ -103,6 +103,10 @@ public class Enemy : MonoBehaviour
 			Destroy(this.gameObject);
 			FindObjectOfType<EnemySpawner>().RemoveEnemy();
 		}
+	}
+
+	public void StayAtPathEnd() {
+		stayAtPathEnd = true;
 	}
 
 	private void CountdownShotCounter() {
