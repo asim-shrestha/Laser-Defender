@@ -86,11 +86,10 @@ public class Enemy : MonoBehaviour
 			return;
 		}
 
-		//End of unlooping path reached
+		//End of NON-LOOPING path reached
 		else if (stayAtPathEnd) {
 			wayPoints.Clear();
 			waypointIndex = 0;
-			stayAtPathEnd = false;
 		}
 
 		//Loop the path
@@ -99,7 +98,7 @@ public class Enemy : MonoBehaviour
 			waypointIndex = 1;
 		}
 
-
+		//Destroy object
 		else {
 			Destroy(this.gameObject);
 			FindObjectOfType<EnemySpawner>().RemoveEnemy();

@@ -26,10 +26,18 @@ public class EnemySpawner : MonoBehaviour
 
 	private IEnumerator SpawnAllWaves() {
 		int waveConfigsLen = waveConfigs.Count;
+		enemyCount = 0;
 
 		//Go through all waves and initiate them
 		for (waveIndex = 0; waveIndex < waveConfigsLen; waveIndex++) {
 			if (isStarted == false) { break; }
+
+			//Check if the last wave has finished yet
+			//if(enemyCount > 0) {
+				//waveIndex--;
+				//continue;
+			//}
+
 
 			WaveConfig currentWave = waveConfigs[waveIndex];
 			yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
